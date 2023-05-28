@@ -1,5 +1,5 @@
 # Establece la imagen base con Node.js 18.16.0
-FROM node:18.16.0
+FROM node:18.16.0-alpine
 
 # Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
