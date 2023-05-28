@@ -3,7 +3,7 @@ stages:
 
 build:
   stage: build
-  image: docker:latest
+  image: docker:19-dind
   services:
     - docker:dind
   script:
