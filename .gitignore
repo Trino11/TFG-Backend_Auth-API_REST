@@ -147,4 +147,4 @@ dist
 
 # Mine
 
-.code-workspace
+*.code-workspace
