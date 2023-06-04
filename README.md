@@ -1,5 +1,10 @@
 # TFG-Backend_Auth-API_REST
 
+## Important
+
+This is not the main repository of the project, just a mirror. The updated repo can be found on gitlab 
+
+https://git.trinohost.com/trino/tfg-backend_auth-api_rest
 
 ## General projects features (APIs and consumers)
 
