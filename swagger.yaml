@@ -1,0 +1,204 @@
+openapi: 3.0.3
+info:
+  title: TFG Auth API
+  description: |-
+    This is the Auth API documentation and usage guide, explores all the API endpoints.
+    You can find the project at [Github](https://github.com/Trino11) and on [GitLab](https://git.trinohost.com/trino/tfg-backend_auth-api_rest).
+  contact:
+    email: rebollar.marquez.antoniomanuel@gmail.com
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://auth.trinohost.com/v1
+tags:
+  - name: info
+    description: Info about server status
+  - name: user
+    description: Operations about user
+paths:
+  /info:
+    get:
+      tags:
+        - info
+      summary: Get the API server status
+      description: Get the API server status
+      operationId: getInfo
+      responses:
+        '200':
+          description: Server online
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerOn'          
+        '500':
+          description: Server error
+  /login:
+    post:
+      tags:
+        - user
+      summary: Login a user
+      description: Login a user
+      operationId: loginUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: User info
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/OwnUserResponse'
+        '500':
+          description: Server error
+  /user:
+    post:
+      tags:
+        - user
+      summary: Get user data based on the request body (must be GET request)
+      description: Get user data based on the request body (must be GET request)
+      operationId: getUserByToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/TokenBodyRequest'
+      responses:
+        '200':
+          description: User info
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/OwnUserResponse'
+        '500':
+          description: Server error
+  /register:
+    post:
+      tags:
+        - user
+      summary: Register an user on the service based on a token
+      description: Register an user on the service based on a token
+      operationId: postRegisterUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/RegisterUserBody'
+      responses:
+        '201':
+          description: User registered
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/UserRegisteredSucessfully'
+        '401':
+          description: Token error
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/AuthError'      
+        '500':
+          description: Server error
+  /verify:
+    post:
+      tags:
+        - user
+      summary: Verify a JWT token (must be GET request)
+      description: Verify a JWT token (must be GET request)
+      operationId: verifyJWT
+      requestBody:
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/TokenBodyRequest'
+      responses:
+        '200':
+          description: Test ok
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/TokenCorrectResponse'
+        '500':
+          description: Server error
+
+
+components:
+  schemas:
+    ServerOn:
+      type: object
+      properties:
+        msg:
+          type: string
+          example: Login server on
+    OwnUserResponse:
+      type: object
+      properties:
+        msg:
+          type: string
+          example: Returning user data
+        result:
+          type: object
+          properties:
+            uid:
+             type: string
+             example: 'fad5ed62-ef77-4ee1-bf91-53fddba84cbc'
+            username:
+             type: string
+             example: 'trino'
+            email:
+              type: string
+              example: 'rebollar.marquez.antoniomanuel@gmail.com'
+    TokenBodyRequest:
+      type: object
+      properties:
+        token:
+          type: string
+    AuthError:
+      type: object
+      properties:
+        error:
+          type: string
+          example: you dont have a token
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          example: trino
+        password:
+          type: string
+          example: mypassword
+    RegisterUserBody:
+      type: object
+      properties:
+        username:
+          type: string
+          example: Trino
+        password:
+          type: string
+          example: mypassword
+        email:
+          type: string
+          example: 'rebollar.marquez.antoniomanuel@gmail.com'
+    UserRegisteredSucessfully:
+      type: object
+      properties:
+        msg:
+          type: string
+          example: User registered
+    TokenCorrectResponse:
+      type: object
+      properties:
+        msg:
+          type: string
+          example: The token is valid
+        uid:
+          type: string
+          example: 85517054-b431-4352-ba73-7aa3c5a5c3ca
+    
+
+          

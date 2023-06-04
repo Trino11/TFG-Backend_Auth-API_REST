@@ -3,6 +3,8 @@ import express, { Application, request, response, Router } from 'express';
 import cors from 'cors';
 import session from 'express-session';
 import jwt from 'jsonwebtoken';
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
 
 import {init} from './database/database.'
 
@@ -19,11 +21,6 @@ class Server {
     private app: Application;
     private isHttp: boolean = false;
 
-    // private optionsProxy = {
-    //     target: hass,
-    //     ws: true
-    // }
-
     constructor() {
         this.app = express();
         this.config();
@@ -34,6 +31,10 @@ class Server {
         this.app.set("port", process.env.PORT_ENV = String(process.env.PORT || 3001));
 
         console.log("Using database on " + process.env.DBHOST + ":" + process.env.DBPORT + " with user " + process.env.DBUSER)
+
+        const swaggerDocument = YAML.load('./swagger.yaml');
+
+        this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
         this.app.use(cors());
         this.app.use(express.json());
